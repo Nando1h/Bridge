@@ -1,7 +1,7 @@
 package Bridge;
 
 public abstract class ControlRemoto {
-    protected Dispositivo dispositivo; // ¡Este es el puente!
+    protected Dispositivo dispositivo; // el puente
 
     public ControlRemoto(Dispositivo dispositivo) {
         this.dispositivo = dispositivo;

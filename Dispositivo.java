@@ -1,5 +1,6 @@
 package Bridge;
 
+
 public interface Dispositivo {
     boolean isEnabled();
     void enable();
@@ -8,4 +9,9 @@ public interface Dispositivo {
     void setVolume(int percent);
     int getChannel();
     void setChannel(int channel);
+    void printStatus();
+    
+    default boolean soportaGrabacion() {
+        return false;
+    }
 }

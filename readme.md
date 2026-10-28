@@ -251,10 +251,25 @@ Extensibilidad independiente: Podemos agregar nuevos dispositivos O nuevos contr
 ### 🤔 Preguntas de Análisis
 
 * Explosión de Clases: ¿Cuántas clases necesitaríamos si tuviéramos 3 tipos de controles y 4 tipos de dispositivos sin el patrón Bridge? ¿Y con el patrón Bridge?
+
+Sin el patrón Bridge se necesitarían 3 × 4 = 12 clases, una por cada combinación de control y dispositivo. Con Bridge solo se necesitan 3 + 4 = 7 clases concretas (más la abstracción ControlRemoto y la interfaz Dispositivo), porque las dos jerarquías evolucionan por separado y se conectan por composición. Así, el número de clases crece sumando y no multiplicando.    
+
 * Acoplamiento: ¿Qué pasaría si la clase ControlRemotoBasico heredara directamente de Radio o TV en lugar de usar composición?
+
+Si ControlRemotoBasico heredara directamente de Radio o TV, quedaría fuertemente acoplado a un dispositivo concreto: solo podría controlar ese tipo de dispositivo y habría que crear una clase nueva por cada combinación, lo que provoca la explosión de clases. Además, no se podría cambiar el dispositivo en tiempo de ejecución, y los cambios en una clase afectarían a la otra. También sería un error de diseño, porque un control remoto no “es un” dispositivo, sino que “usa un” dispositivo. Con composición, el control depende solo de la interfaz Dispositivo, lo que mantiene ambas jerarquías desacopladas.
+
 * Extensibilidad: Si quiero agregar un nuevo dispositivo (ej: Projector), ¿qué cambios necesito hacer? ¿Necesito modificar las clases de controles existentes?
+
+Para agregar un Projector solo hay que crear una nueva clase que implemente la interfaz Dispositivo. No es necesario modificar ninguna de las clases de control existentes (ControlRemoto, ControlRemotoBasico y ControlRemotoAvanzado), porque dependen de la abstracción Dispositivo y no de clases concretas. Así, el nuevo dispositivo funciona con todos los controles sin cambiar su código, lo que cumple el principio Abierto/Cerrado.
+
 * Principios SOLID: ¿Qué principios SOLID se aplican en este patrón? (Especialmente Principio de Inversión de Dependencias y * Principio Abierto/Cerrado)
+
+En el patrón Bridge se aplican principalmente dos principios SOLID. El Principio de Inversión de Dependencias, porque ControlRemoto depende de la interfaz Dispositivo y no de clases concretas como Radio o TV, de modo que tanto la abstracción como la implementación dependen de una abstracción común. El Principio Abierto/Cerrado, porque se pueden agregar nuevos dispositivos (Projector) o nuevos controles (ControlRemotoVoz) sin modificar el código existente. También se aplican el Principio de Responsabilidad Única, ya que cada jerarquía tiene una responsabilidad distinta (operar el dispositivo y funcionar internamente), y el Principio de Sustitución de Liskov, porque cualquier subclase puede usarse en lugar de su tipo base sin alterar el comportamiento del programa.
+
 * Flexibilidad: ¿Cómo nos beneficiamos al poder cambiar el dispositivo de un control en tiempo de ejecución?
+
+Poder cambiar el dispositivo de un control en tiempo de ejecución permite reutilizar un mismo control con distintos dispositivos sin crear nuevas instancias ni nuevas clases. Esto da flexibilidad para decidir dinámicamente qué dispositivo se controla (por ejemplo, según la elección del usuario), reduce la cantidad de objetos y el código duplicado, y facilita las pruebas al poder sustituir un dispositivo real por uno simulado. Es posible gracias a que el control depende de la interfaz Dispositivo y no de una clase concreta, que es la esencia del patrón Bridge.
+
 ### 🧪 Ejercicios de Extensión
 
 * Agrega un nuevo dispositivo: Implementa la clase Projector y prueba con los controles existentes.
